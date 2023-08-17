@@ -20,7 +20,22 @@ app.get('/',(req,res)=>{
     })
 })
 
-app.post('/',async(req,res)=>{
+app.post('/login',async(req,res)=>{
+    const {username,password} = req.body;
+    try{
+        const user = await User.findOne({username:username , password : password});
+        if(user){
+            res.status(200).json({message : 'Login successfull'})
+        }else{
+            res.status(401).json({message :'Login failed'})
+        }
+    }catch(err){
+        console.log(err)
+        res.status(500).json({message : 'Internal Server error'})
+    }
+});
+
+app.post('/register',async(req,res)=>{
     const { username, email, password, jobprofile } = req.body;
     const UserData = new User({
         username:username,

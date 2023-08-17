@@ -1,5 +1,5 @@
-import {useState,useEffect} from 'react'
-const API_BASE = 'http://localhost:8000';
+import {useState} from 'react'
+const API_BASE = 'http://localhost:8000/register';
 function Register() {
   const [username, setusername] = useState("")
   const [email, setemail] = useState("")
@@ -22,13 +22,14 @@ function Register() {
   }
   return (
     <>
+      <h1>Registration</h1>
       <form onSubmit={handleSubmit}>
           Enter Email :- <input
             type='email'
             value={email}
             onChange={(e)=>setemail(e.target.value)}
           />
-<p style={{ color: 'red' }}>*make sure email must be valid , We'll be sending a Conformation mail</p>
+<p style={{ color: 'red' }}>*make sure email must be valid , For furthur Process We'll be sending a Conformation mail</p>
           Enter Password :- <input
             type='password'
             value={password}
