@@ -1,9 +1,13 @@
 import React , {useState} from 'react'
+import {Navigate,useNavigate} from 'react-router-dom'
+import toast from 'react-hot-toast'
+
 const API_BASE = 'http://localhost:8000/login'
 
 const Login = () => {
   const [username, setusername] = useState("")
   const [password, setpassword] = useState("")
+  const Navigator = useNavigate()
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
@@ -21,7 +25,10 @@ const Login = () => {
     })
     if(response.status === 200){
       console.log('Login successfull')
+      toast.success(`${username} logged successfully`)
+      Navigator(`${username}/dashboard`)
     }else{
+      toast.error('Login Failed Kindly Check for valid credantials')
       console.log("login failed")
     }
   }catch(err){console.log(err)}
