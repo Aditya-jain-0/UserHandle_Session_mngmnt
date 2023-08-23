@@ -1,31 +1,48 @@
 import React ,{useEffect,useState} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-const API_BASE = 'http://localhost:8000/login'
+import toast from 'react-hot-toast'
+const PORT = process.env.REACT_APP_SERVER_PORT
+const API_BASE = `http://localhost:${PORT}`
 
 const Userdashboard = () => {
  const [userdata, setuserdata] = useState({})
  const {username} = useParams() 
  const Navigator = useNavigate()
- const gobackfunc = ()=>{
-    Navigator('/login')
+ const gobackfunc = ()=>{ 
+    Navigator('/')
  }
 
- useEffect(()=>{
-   fetch(`${API_BASE}/${username}/dashboard`)
-   .then(response => response.json())
-   .then(data => setuserdata(data))
-   .catch(err=>console.log(err))
-},[])
+useEffect(() => {
+  const fetchdata = async () => {
+    console.log("Fetching code ")
+    try {
+      const response = await fetch(`${API_BASE}/${username}`);
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log(data);
+        setuserdata(data);
+      } else {
+        toast.error(`${username} is not Authorized`);
+        Navigator('/');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  fetchdata();
+}, [username]);
 
 
   return (
     <>
     <button onClick={gobackfunc}>Back</button>
-    <h1>Welcome , {username}</h1>
+     <h1>{username}</h1>
     <ul>
-      <li>{userdata.email}</li>
       <li>{userdata.jobprofile}</li>
-    </ul>
+      <li>{userdata.fullname}</li>
+      <li>{userdata.email}</li>
+      <li>{userdata.phonenumber}</li> 
+     </ul>
     </>
   )
 }

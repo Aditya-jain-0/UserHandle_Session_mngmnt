@@ -1,13 +1,17 @@
 import {useState} from 'react'
-const API_BASE = 'http://localhost:8000/register';
+
+const PORT = process.env.REACT_APP_SERVER_PORT
+const API_BASE = `http://localhost:${PORT}/register`
 function Register() {
   const [username, setusername] = useState("")
   const [email, setemail] = useState("")
+  const [fullname, setfullname] = useState("")
+  const [phonenumber, setphonenumber] = useState("")
   const [password, setpassword] = useState("")
   const [jobprofile, setjobprofile] = useState("")
 
   const handleSubmit = ()=>{    
-    fetch(API_BASE,{
+     fetch(API_BASE,{
       method:'POST',
       headers:{
         'Content-type':'application/json'
@@ -15,6 +19,8 @@ function Register() {
       body:JSON.stringify({
           username: username, 
           email: email,      
+          fullname:fullname,
+          phonenumber:phonenumber,
           password: password,
           jobprofile: jobprofile
       })
@@ -24,23 +30,35 @@ function Register() {
     <>
       <h1>Registration</h1>
       <form onSubmit={handleSubmit}>
-          Enter Email :- <input
-            type='email'
-            value={email}
-            onChange={(e)=>setemail(e.target.value)}
-          />
-<p style={{ color: 'red' }}>*make sure email must be valid , For furthur Process We'll be sending a Conformation mail</p>
-          Enter Password :- <input
-            type='password'
-            value={password}
-            onChange={(e)=>setpassword(e.target.value)}
-          />
-          <br/>
           Enter Username :- <input
             type='text'
             value={username}
             onChange={(e)=>setusername(e.target.value)}
           />  
+          <br/>
+          Enter Email :- <input
+            type='email'
+            value={email}
+            onChange={(e)=>setemail(e.target.value)}
+          />
+          <br/>
+          Enter Fullname : <input
+            type='text'
+            value={fullname}
+            onChange={(e)=>setfullname(e.target.value)}  
+         />
+          <br/>
+          Enter Phone number : <input
+              type='text'
+              value={phonenumber}
+              onChange={(e)=>setphonenumber(e.target.value)}
+          />        
+          <br/>
+          Enter Password :- <input
+            type='password'
+            value={password}
+            onChange={(e)=>setpassword(e.target.value)}
+          />
           <br/>
           Enter Job Profile :- <input
               type='text'
@@ -49,7 +67,8 @@ function Register() {
           />
           <br/>
           <button>Register Me</button>
-      </form>      
+      </form>  
+      <p>Back to <a href='/'>Login</a></p>  
     </>
   );
 }

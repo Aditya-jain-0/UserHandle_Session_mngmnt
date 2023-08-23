@@ -1,69 +1,87 @@
 const express = require('express');
 const cors = require('cors');
-const PORT = 8000;
 const User = require('./Models/DB')
 const mongoose = require('mongoose');
-
-//mongodb connection
-mongoose.connect('mongodb://127.0.0.1:27017/User')  //default mongodb port
-.then(()=>{console.log("Connection Successfull")})
-.catch((err)=>{console.log(err)});
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
+const PORT = process.env.PORT
+const MONGO_URL = process.env.MONGO_URL
+mongoose.connect(MONGO_URL)
+.then(() => { console.log("DB Connected Successfully"); })
+.catch((err) => { console.log(err); });
 
 const app = express();
 
 app.use(cors());
-app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use(express.json());
+app.use(session({
+    secret: 'iambatman',
+    resave: false,
+    saveUninitialized: true,
+}));
+app.use(cookieParser());
 
-app.get('/',(req,res)=>{
-    res.json({
-        "message" : "Hello from the json side"
-    })
-})
+app.get('/:username', async (req, res) => {
+    const { username } = req.params;
+    if (req.session.userid && req.session.userid === username) {
+        try {
+            const user = await User.findOne({ username });
+            if (user) {
+                res.status(200).json(user);
+            } else {
+                res.status(401).json({ message: "User not Authorized" });
+            }
+        } catch (error) {
+            res.status(500).json({ message: "Internal server error" });
+        }
+    } else {
+        res.json({message : `${username} not authorized`});
+    }
+});
 
-app.get('/login/:username/dashboard',async(req,res)=>{
-    const {username} = req.params;
+app.post('/', async (req, res) => {
+    const { username, password } = req.body;
     try {
-        const user = await User.findOne({username});
-        if(user){
-            res.status(200).json(user)
-        }else{
-            res.status(404).json({message:"user not found"});
+        const user = await User.findOne({ username, password });
+        if (user) {
+            req.session.userid = req.body.username
+            res.status(200).json({ message: 'Login successful' });
+        } else {
+            res.status(401).json({ message: 'Login failed' });
         }
-    } catch (error) {
-        res.status(500).json({message : "Internal server error"})
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Internal Server error' });
     }
 });
 
-app.post('/login',async(req,res)=>{
-    const {username,password} = req.body;
-    try{
-        const user = await User.findOne({username:username , password : password});
-        if(user){
-            res.status(200).json({message : 'Login successfull'})
-        }else{
-            res.status(401).json({message :'Login failed'})
-        }
-    }catch(err){
-        console.log(err)
-        res.status(500).json({message : 'Internal Server error'})
-    }
+app.get('/:username/logout', (req, res) => {
+    req.session.destroy();
+    res.json({message:"loggout out"});
 });
 
-app.post('/register',async(req,res)=>{
-    const { username, email, password, jobprofile } = req.body;
+app.post('/register', async (req, res) => {
+    const { username, email, fullname, phonenumber, password, jobprofile } = req.body;
     const UserData = new User({
-        username:username,
-        email:email,
-        password:password,
-        jobprofile:jobprofile,
+        username: username,
+        email: email,
+        fullname: fullname,
+        phonenumber: phonenumber,
+        password: password,
+        jobprofile: jobprofile,
     });
     try {
         const savedUser = await UserData.save();
+        res.status(200).json({message : 'Registered succesfully'})
     } catch (error) {
-        console.log(err);
+        console.log(error);
     }
-})
+});
 
-app.listen(PORT,()=>{
-    console.log(`Server listening at port ${PORT}`)
-})
+console.log(PORT)
+
+app.listen(PORT, () => {
+    console.log(`Server listening at port ${PORT}`);
+});

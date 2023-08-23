@@ -1,9 +1,10 @@
-import React from 'react'
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import React,{useEffect} from 'react'
+import {BrowserRouter,Routes,Route,useNavigate} from 'react-router-dom'
 import Login from './Pages/Login'
 import Register from './Pages/Register'
 import Userdashboard from './Pages/Userdashboard'
 import { Toaster } from 'react-hot-toast';
+
 const App = () => {
   return (
      <>
@@ -21,13 +22,14 @@ const App = () => {
         </div>
         <BrowserRouter>
           <Routes>
-            <Route path='/login' element={<Login/>}></Route>
+            <Route path='/' element={<Login/>}></Route>
             <Route path='/register' element={<Register/>}></Route>
-            <Route path='/login/:username/dashboard' element={<Userdashboard/>}></Route>
+            <Route path='/:username' element={<Userdashboard/>}></Route>
           </Routes>
         </BrowserRouter>
      </>
   )
 }
+
 
 export default App

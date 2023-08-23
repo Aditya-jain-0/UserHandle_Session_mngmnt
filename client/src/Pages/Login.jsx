@@ -1,8 +1,9 @@
-import React , {useState} from 'react'
+import React , {useState , useEffect} from 'react'
 import {Navigate,useNavigate} from 'react-router-dom'
 import toast from 'react-hot-toast'
+const PORT = process.env.REACT_APP_SERVER_PORT
+const API_BASE = `http://localhost:${PORT}`
 
-const API_BASE = 'http://localhost:8000/login'
 
 const Login = () => {
   const [username, setusername] = useState("")
@@ -25,8 +26,8 @@ const Login = () => {
     })
     if(response.status === 200){
       console.log('Login successfull')
-      toast.success(`${username} logged successfully`)
-      Navigator(`${username}/dashboard`)
+      // toast.success(`${username} logged successfully`)
+      Navigator(`/${username}`)
     }else{
       toast.error('Login Failed Kindly Check for valid credantials')
       console.log("login failed")
