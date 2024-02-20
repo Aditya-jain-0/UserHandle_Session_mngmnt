@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "65d37ab5bbbd796a3134ecf8"
+  },
+  "username": "bro",
+  "email": "bro12@gmail.com",
+  "fullname": "bro cool",
+  "phonenumber": "1234554321",
+  "password": "qazx",
+  "jobprofile": "deo",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d38adee2719cac379e6dc0"
+  },
+  "username": "Usrname",
+  "email": "use123@gmail.com",
+  "fullname": "username ln",
+  "phonenumber": "2345665432",
+  "password": "1234",
+  "jobprofile": "safds",
+  "__v": 0
+}]

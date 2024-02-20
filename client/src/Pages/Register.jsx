@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import toast from 'react-hot-toast'
 
 const PORT = process.env.REACT_APP_SERVER_PORT
 const API_BASE = `http://localhost:${PORT}/register`
@@ -10,8 +11,9 @@ function Register() {
   const [password, setpassword] = useState("")
   const [jobprofile, setjobprofile] = useState("")
 
-  const handleSubmit = ()=>{    
-     fetch(API_BASE,{
+  const handleSubmit = async()=>{    
+    try{    
+     const resp = await fetch(API_BASE,{
       method:'POST',
       headers:{
         'Content-type':'application/json'
@@ -25,6 +27,14 @@ function Register() {
           jobprofile: jobprofile
       })
     })
+    if(resp.status === 200){
+      toast.success(`${username} registered successfully`)
+    }else{
+      toast.error('error while registering')
+    }
+  }catch(err){
+    console.log(err)
+  }
   }
   return (
     <>

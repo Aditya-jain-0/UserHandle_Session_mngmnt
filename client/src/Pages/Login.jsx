@@ -26,7 +26,7 @@ const Login = () => {
     })
     if(response.status === 200){
       console.log('Login successfull')
-      // toast.success(`${username} logged successfully`)
+      toast.success(`${username} logged successfully`)
       Navigator(`/${username}`)
     }else{
       toast.error('Login Failed Kindly Check for valid credantials')
