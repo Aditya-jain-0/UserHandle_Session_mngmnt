@@ -13,7 +13,14 @@ mongoose.connect(MONGO_URL)
 const User = require('./Models/DB')
 const app = express();
 
-app.use(cors());
+app.use(cors(
+{
+    origin : ['https://user-handle-mern-frontnd.vercel.app/'],
+    methods : ['POST','GET'],
+    credentials : true,
+}
+));
+
 app.use(express.urlencoded({extended:true}))
 app.use(express.json());
 
