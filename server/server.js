@@ -15,7 +15,7 @@ const app = express();
 
 app.use(cors(
 {
-    origin : ['https://user-handle-mern-frontnd.vercel.app/'],
+    origin : ['https://user-handle-mern-frontnd.vercel.app/','https://user-handle-mern-frontnd.vercel.app/register'],
     methods : ['POST','GET'],
     credentials : true,
 }
