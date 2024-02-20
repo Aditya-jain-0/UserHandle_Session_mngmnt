@@ -3,7 +3,7 @@ import toast from 'react-hot-toast'
 
 const PORT = process.env.REACT_APP_SERVER_PORT
 // const API_BASE = `http://localhost:${PORT}/register`
-const API_BASE = `https://user-handle-mern.vercel.app//register`
+const API_BASE = `https://user-handle-mern.vercel.app/register`
 function Register() {
   const [username, setusername] = useState("")
   const [email, setemail] = useState("")
