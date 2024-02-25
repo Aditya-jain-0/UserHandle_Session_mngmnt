@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 
 require('dotenv').config();
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 const MONGO_URL = process.env.MONGO_URL
 mongoose.connect(MONGO_URL)
 .then(() => { console.log("DB Connected Successfully"); })
@@ -13,13 +13,7 @@ mongoose.connect(MONGO_URL)
 const User = require('./Models/DB')
 const app = express();
 
-app.use(cors(
-{
-    origin : ['https://user-handle-mern-frontnd.vercel.app/','https://user-handle-mern-frontnd.vercel.app/register','https://user-handle-mern-frontnd.vercel.app/:username'],
-    methods : ['POST','GET'],
-    credentials : true,
-}
-));
+app.use(cors());
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json());
