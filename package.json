@@ -1,0 +1,20 @@
+{
+   "name": "UserHandle_Mern",
+   "version": "1.0.0",
+   "description": "",
+   "scripts": {
+       "build": "echo \"No build specified\" && exit 1",
+       "test": "echo \"No test specified\" && exit 1",
+       "start": "nodemon server/server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Aditya-jain-0/UserHandle_Mern.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Aditya-jain-0/UserHandle_Mern/issues"
+    },
+    "homepage": "https://github.com/Aditya-jain-0/UserHandle_Mern#readme"
+    }
